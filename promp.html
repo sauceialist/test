@@ -1,0 +1,12 @@
+<html>
+<head><title>Double Prompt via Iframe</title></head>
+<body>
+  <h2>Double Prompt Race Condition</h2>
+  <iframe src="child.html"></iframe>
+  <script>
+    setTimeout(() => {
+      navigator.geolocation.getCurrentPosition(() => {}, () => {});
+    }, 50);
+  </script>
+</body>
+</html>
