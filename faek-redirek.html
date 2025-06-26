@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head><title>Skenario 3: Timed Navigation Hijack</title></head>
+<head><title>Skenario 3: History Replace Trap (Fixed)</title></head>
 <body>
-  <p>Loading... Please wait</p>
+  <h2>Loading...</h2>
   <script>
-    // Fake pushState to simulate legit flow
-    history.pushState({}, "", "/intermediate");
+    // Replace state to wipe history entry
+    history.replaceState({}, "", "/intermediate");
     setTimeout(() => {
-      location.href = "https://apple.com/payment";
+      location.replace("https://apple.com/payment");
     }, 1500);
   </script>
 </body>
