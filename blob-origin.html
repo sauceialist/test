@@ -1,0 +1,16 @@
+<html>
+<head><title>Blob Origin Prompt</title></head>
+<body>
+  <h2>Loading blob page with prompt</h2>
+  <script>
+    const html = `
+      <script>
+        navigator.geolocation.getCurrentPosition(() => {}, () => {});
+      <\/script>
+    `;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    location.href = url;
+  </script>
+</body>
+</html>
