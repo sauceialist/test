@@ -1,0 +1,12 @@
+<html>
+<head><title>Prompt after Redirect</title></head>
+<body>
+  <h2>Testing redirect + prompt</h2>
+  <script>
+    navigator.geolocation.getCurrentPosition(() => {}, () => {});
+    setTimeout(() => {
+      location.href = "https://apple.com";
+    }, 1000);
+  </script>
+</body>
+</html>
