@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Iframe Share Hijack - Revisi</title></head>
+<body>
+  <h2>Iframe share hijack test</h2>
+
+  <iframe style="width:100%;height:200px;border:1px solid #ccc"
+    srcdoc='
+      <html>
+        <body>
+          <h3>Iframe inside (attacker)</h3>
+          <script>
+            setTimeout(() => {
+              navigator.share({
+                title: "Iframe Trigger",
+                text: "Shared via iframe",
+                url: "https://appleid.apple.com"
+              }).catch(() => {
+                document.body.innerHTML += "<p>❌ Share blocked or dismissed.</p>";
+              });
+            }, 1000);
+          </script>
+        </body>
+      </html>
+    '>
+  </iframe>
+
+</body>
+</html>
