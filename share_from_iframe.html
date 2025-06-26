@@ -1,0 +1,15 @@
+<html>
+<head><title>Iframe Trigger</title></head>
+<body>
+  <p>Triggering share from iframe...</p>
+  <script>
+    setTimeout(() => {
+      navigator.share({
+        title: "iFrame Attack",
+        text: "Visit appleid.apple.com",
+        url: "https://appleid.apple.com"
+      }).catch(() => {});
+    }, 1000);
+  </script>
+</body>
+</html>
