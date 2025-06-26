@@ -1,0 +1,13 @@
+<html>
+<head><title>Tab Focus Race</title></head>
+<body>
+  <h2>Open New Tab and Trigger Share</h2>
+  <button onclick="openTabShare()">Open Tab & Share</button>
+
+  <script>
+    function openTabShare() {
+      const newTab = window.open('share_trigger.html');
+    }
+  </script>
+</body>
+</html>
