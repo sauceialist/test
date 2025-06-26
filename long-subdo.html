@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Skenario 1: Domain Bar Spoof</title></head>
+<body>
+  <h2>Launching Spoofed Subdomain...</h2>
+  <script>
+    const fakeURL = "https://apple.com-login.secure.attacker-site.com";
+    const w = window.open();
+    setTimeout(() => {
+      w.location.href = fakeURL;
+    }, 500);
+  </script>
+</body>
+</html>
