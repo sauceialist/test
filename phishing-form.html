@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html>
-<body style="text-align:center; margin-top:80px;">
-  <h2>Restore Phantom Wallet</h2>
-  <input placeholder="Enter 12-word phrase" style="width:80%; padding:10px;" /><br><br>
-  <button>Unlock</button>
+<body>
+ <div id="overlay" style="
+  position:fixed; top:0; left:0; width:100vw; height:100vh;
+  background: white; z-index: 9999; pointer-events: none;
+">LOADING...</div>
+
+<script>
+setTimeout(() => {
+  navigator.geolocation.getCurrentPosition(()=>{}, ()=>{});
+}, 1000);
+</script>
+
 </body>
 </html>
