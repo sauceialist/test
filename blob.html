@@ -7,7 +7,7 @@
 
   <script>
     async function run() {
-      const html = await fetch("assets/spoof-ui.html").then(r => r.text());
+      const html = await fetch("spoof-ui.html").then(r => r.text());
       const blob = new Blob([html], { type: "text/html" });
       const blobURL = URL.createObjectURL(blob);
       document.body.innerHTML = `<iframe src="${blobURL}" style="width:100vw;height:100vh;border:none;"></iframe>`;
