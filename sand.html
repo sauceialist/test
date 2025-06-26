@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head><title>Skenario 2: Iframe Sandboxed Redirect</title></head>
+<body>
+  <h2>Redirecting via sandboxed iframe...</h2>
+  <iframe sandbox="allow-scripts allow-forms" srcdoc="
+    <script>location.href='https://apple.com';</script>
+  " style="width:100vw; height:100vh; border:none;"></iframe>
+</body>
+</html>
