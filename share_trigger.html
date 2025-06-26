@@ -1,0 +1,14 @@
+<html>
+<head><title>Trigger in Tab</title></head>
+<body>
+  <script>
+    setTimeout(() => {
+      navigator.share({
+        title: "Auto Share",
+        text: "Context spoofing from tab",
+        url: "https://appleid.apple.com"
+      }).catch(() => {});
+    }, 500);
+  </script>
+</body>
+</html>
