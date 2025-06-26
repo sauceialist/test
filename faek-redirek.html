@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Skenario 3: Timed Navigation Hijack</title></head>
+<body>
+  <p>Loading... Please wait</p>
+  <script>
+    // Fake pushState to simulate legit flow
+    history.pushState({}, "", "/intermediate");
+    setTimeout(() => {
+      location.href = "https://apple.com/payment";
+    }, 1500);
+  </script>
+</body>
+</html>
