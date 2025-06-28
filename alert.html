@@ -1,18 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Requesting Location</title>
-  <script>
-    window.onload = () => {
-      setTimeout(() => {
-        navigator.geolocation.getCurrentPosition(
-          pos => alert("Location accessed!"),
-          err => alert("Permission denied.")
-        );
-      }, 100);
-    };
-  </script>
-</head>
-<body>
-</body>
-</html>
+<script>
+navigator.geolocation.getCurrentPosition(
+  pos => alert("Lokasi berhasil diambil"),
+  err => alert("Gagal mengambil lokasi")
+);
+</script>
