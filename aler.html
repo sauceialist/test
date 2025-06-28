@@ -1,7 +1,7 @@
-<a href="#" onclick="poc()">click me to trigger location prompt</a>
+<a href="#" onclick="openSpoof()">Click to verify your location</a>
 <script>
-  function poc() {
-    document.getElementById("ifr").src = "https://www.youtube.com/redirect?q=https://sauceialist.github.io/test/alert.html&sa=D";
-  }
+function openSpoof() {
+  const redirect = "https://www.youtube.com/redirect?q=https://ybt01.github.io/location.html";
+  window.open(redirect, "_blank");
+}
 </script>
-<iframe id="ifr" style="display:none"></iframe>
