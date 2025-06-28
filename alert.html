@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Enable Notifications</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: -apple-system, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: white;
-      flex-direction: column;
-    }
-  </style>
+  <title>Requesting Location</title>
+  <script>
+    window.onload = () => {
+      setTimeout(() => {
+        navigator.geolocation.getCurrentPosition(
+          pos => alert("Location accessed!"),
+          err => alert("Permission denied.")
+        );
+      }, 100);
+    };
+  </script>
 </head>
 <body>
-  <h2>🔔 Enable notifications</h2>
-  <p>Redirected from youtube.com</p>
-
-  <script>
-    // Trigger native prompt seperti Safari native popup
-    setTimeout(() => {
-      Notification.requestPermission().then(result => {
-        if (result === "granted") {
-          alert("✅ Notifications enabled for youtube.com");
-        }
-      });
-    }, 100); // Pastikan ini masih dalam gesture context
-  </script>
 </body>
 </html>
