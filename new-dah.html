@@ -1,32 +1,100 @@
 <!doctype html>
 <html lang="id">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Deeplink Test</title></head>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Deeplink Test - Alodokter (6 Variants)</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial;padding:20px;line-height:1.5}
+    h1{font-size:1.4rem}
+    .card{border:1px solid #ddd;border-radius:8px;padding:12px;margin:10px 0}
+    .btn{display:inline-block;padding:8px 10px;margin:6px 6px 0 0;border-radius:6px;border:1px solid #999;background:#f7f7f7;cursor:pointer;text-decoration:none;color:#111}
+    .note{font-size:0.9rem;color:#444}
+    pre{background:#fafafa;padding:10px;border-radius:6px;overflow:auto}
+  </style>
+</head>
 <body>
-  <h1>Deeplink Test</h1>
+  <h1>Deeplink Test - 6 Variants (Adjusted: all "alodokter")</h1>
+  <p class="note">Pastikan: device/emulator terhubung & app <strong>com.alodokter.android</strong> terpasang, dan Anda gunakan akun uji. Cek logs Pipedream untuk masing-masing percobaan.</p>
 
-  <p>
-    <!-- encoded scheme deeplink: action value di-encode supaya tanda ? & aman -->
-    <a id="link-scheme"
-       href="alodokter://open?action=https%3A%2F%2Feoeqpmgim107etx.m.pipedream.net%2Fwww.alodokter.com%3Ftitle%3DCredits">
-      Open app via alodokter:// (encoded)
-    </a>
-  </p>
+  <div class="card">
+    <strong>Variant 1 — Encoded (scheme) — host: <code>www.alodokter.com</code></strong>
+    <p class="note">Action di-encode sehingga tanda khusus tidak memecah intent.</p>
+    <p>
+      <a class="btn" href="alodokter://open?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com">Open (scheme, encoded)</a>
+      <button class="btn" onclick="openLink('alodokter://open?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
 
-  <p>
-    <!-- encoded https variant -->
-    <a id="link-https"
-       href="https://www.alodokter.com/?action=https%3A%2F%2Feoeqpmgim107etx.m.pipedream.net%2Fwww.alodokter.com%3Ftitle%3DCredits">
-      Open app via https (encoded)
-    </a>
-  </p>
+  <div class="card">
+    <strong>Variant 2 — Encoded (scheme) — trigger substring: <code>www.alodokter.com</code></strong>
+    <p class="note">Masukkan <code>www.alodokter.com</code> di path untuk menguji logic berbasis <code>contains()</code> (trigger).</p>
+    <p>
+      <a class="btn" href="alodokter://open?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com">Open (scheme, encoded, trigger)</a>
+      <button class="btn" onclick="openLink('alodokter://open?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
 
-  <button id="btn-redirect">Open deeplink (auto)</button>
+  <div class="card">
+    <strong>Variant 3 — Encoded (https) — host: <code>www.alodokter.com</code></strong>
+    <p class="note">Gunakan https variant (autoVerify route). Parameter action di-encode.</p>
+    <p>
+      <a class="btn" href="https://www.alodokter.com/?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com">Open (https, encoded)</a>
+      <button class="btn" onclick="openLink('https://www.alodokter.com/?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
+
+  <div class="card">
+    <strong>Variant 4 — Encoded (https) — trigger substring: <code>www.alodokter.com</code></strong>
+    <p class="note">Tes apakah app menambahkan token ketika substring trigger ditemukan di value action.</p>
+    <p>
+      <a class="btn" href="https://www.alodokter.com/?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com">Open (https, encoded, trigger)</a>
+      <button class="btn" onclick="openLink('https://www.alodokter.com/?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
+
+  <div class="card">
+    <strong>Variant 5 — Non-encoded (scheme) — trigger substring (browser parsing behavior)</strong>
+    <p class="note">Tujuan: melihat bagaimana browser/intents mem-parsing tanpa encoding.</p>
+    <p>
+      <a class="btn" href="alodokter://open?action=https://eok1vtfndxumk2k.m.pipedream.net/www.alodokter.com">Open (scheme, non-encoded)</a>
+      <button class="btn" onclick="openLink('alodokter://open?action=https://eok1vtfndxumk2k.m.pipedream.net/www.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
+
+  <div class="card">
+    <strong>Variant 6 — Double-encoded (scheme) — untuk app yang decode dua kali</strong>
+    <p class="note">Beberapa handler mungkin decode dua kali; varian ini untuk mengatasi kasus itu.</p>
+    <p>
+      <!-- double encode -->
+      <a class="btn" href="alodokter://open?action=https%253A%252F%252Feok1vtfndxumk2k.m.pipedream.net%252Fwww.alodokter.com">Open (scheme, double-encoded)</a>
+      <button class="btn" onclick="openLink('alodokter://open?action=https%253A%252F%252Feok1vtfndxumk2k.m.pipedream.net%252Fwww.alodokter.com')">Open (JS)</button>
+    </p>
+  </div>
+
+  <hr/>
+  <p class="note"><strong>Urutan pengujian yang disarankan:</strong></p>
+  <ol>
+    <li>Variant 2 (encoded + trigger)</li>
+    <li>Variant 4 (https + trigger)</li>
+    <li>Variant 1 / 3 (encoded + host resmi)</li>
+    <li>Variant 5 (non-encoded)</li>
+    <li>Variant 6 (double-encoded)</li>
+  </ol>
+
+  <p class="note">Setiap kali klik: periksa Pipedream logs (headers & query) dan jalankan <code>adb logcat</code> untuk melihat intent/extras yang diterima.</p>
+
+  <pre>
+# Contoh cepat ADB (encoded) sebagai alternatif deterministik:
+adb shell am start -a android.intent.action.VIEW \
+  -d "alodokter://open?action=https%3A%2F%2Feok1vtfndxumk2k.m.pipedream.net%2Fwww.alodokter.com" \
+  com.alodokter.android
+  </pre>
 
   <script>
-    document.getElementById('btn-redirect').addEventListener('click', function () {
-      var deeplink = "alodokter://open?action=" + encodeURIComponent("https://eoeqpmgim107etx.m.pipedream.net/www.alodokter.com?title=Credits");
-      window.location.href = deeplink;
-    });
+    function openLink(url) {
+      window.location.href = url;
+    }
   </script>
 </body>
 </html>
